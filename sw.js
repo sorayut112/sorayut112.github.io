@@ -1,6 +1,6 @@
 // Cache only the public application shell and hashed assets. Never cache auth/API responses.
-const CACHE='yangdee-shell-index-tQ8qZ4Z5js';
-const ASSETS = ["/assets/index-tQ8qZ4Z5.js","/assets/index-CnfmbcQf.css"];
+const CACHE='yangdee-shell-index-Cd9LhOJqjs';
+const ASSETS = ["/assets/index-Cd9LhOJq.js","/assets/index-BwrkXpxX.css"];
 const BASE=new URL(self.registration.scope).pathname.replace(/\/$/,'');
 const local=path=>`${BASE}${path}`;
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll([local('/'),local('/index.html'),local('/icon.svg'),local('/manifest.webmanifest'),...ASSETS])).then(()=>self.skipWaiting()));});

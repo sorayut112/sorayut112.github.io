@@ -1,6 +1,6 @@
 // Cache only the public application shell and hashed assets. Never cache auth/API responses.
-const CACHE='yangdee-shell-index-CQjR7VtLjs';
-const ASSETS = ["/assets/index-CQjR7VtL.js","/assets/index-m3RAh94u.css"];
+const CACHE='yangdee-shell-index-VrejHyX_js';
+const ASSETS = ["/assets/index-VrejHyX_.js","/assets/index-BhPNr2f7.css"];
 const BASE=new URL(self.registration.scope).pathname.replace(/\/$/,'');
 const local=path=>`${BASE}${path}`;
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll([local('/'),local('/index.html'),local('/icon.svg'),local('/manifest.webmanifest'),...ASSETS])).then(()=>self.skipWaiting()));});
@@ -9,3 +9,4 @@ self.addEventListener('fetch',event=>{const url=new URL(event.request.url);if(ev
  if(event.request.mode==='navigate'){event.respondWith(fetch(event.request).then(response=>{if(response.ok&&response.headers.get('content-type')?.includes('text/html')){const clone=response.clone();caches.open(CACHE).then(c=>c.put(local('/index.html'),clone));}return response;}).catch(()=>caches.match(local('/index.html'))));return;}
  if(url.pathname.startsWith(local('/assets/'))||[local('/icon.svg'),local('/manifest.webmanifest')].includes(url.pathname)){event.respondWith(caches.match(event.request).then(cached=>cached||fetch(event.request).then(response=>{if(response.ok){const copy=response.clone();caches.open(CACHE).then(c=>c.put(event.request,copy));}return response;})));}
 });
+self.addEventListener('notificationclick',event=>{event.notification.close();const destination=event.notification.data?.url||new URL(`${local('/')}?page=funds`,self.location.origin).href;event.waitUntil(clients.matchAll({type:'window',includeUncontrolled:true}).then(async windows=>{const current=windows.find(client=>new URL(client.url).origin===self.location.origin);if(current){if('navigate'in current)await current.navigate(destination);return current.focus()}return clients.openWindow(destination)}));});
